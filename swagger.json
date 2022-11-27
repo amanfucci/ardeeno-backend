@@ -1,0 +1,124 @@
+{
+  "swagger": "2.0",
+  "info": {
+      "version": "0.1.0",
+      "title": "@t41-se22/ardeeno-backend"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": ["Utente", "Authentication"],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/utente": {
+      "post": {
+        "tags": ["Utente"],
+        "description": "Create a new user",
+        "parameters": [
+          {"name":"x-access-token", "in":"header", "type":"string"},
+          { "name":"body",
+          "in":"body",
+          "schema": {"$ref": "#/definitions/Utente"}}
+          ],
+        "responses": {
+          "201": {"description": "CREATED", "schema": {"$ref": "#/definitions/Utente" }, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
+        }
+      },
+      "get": {
+        "tags": ["Utente"],
+        "description": "Get all users in system",
+        "parameters": [
+          {"name":"x-access-token", "in":"header", "type":"string"}],   
+        "responses": {
+          "200": {"description": "OK", "schema": {
+            "type": "array",
+            "items": {
+            "$ref": "#/definitions/Utente" }}, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
+        }
+      },
+      "delete": {
+        "tags": ["Utente"],
+        "description": "Delete all users in system",
+        "parameters": [
+          {"name":"x-access-token", "in":"header", "type":"string"}],
+        "responses": {
+          "200": {"description": "OK", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
+        }
+      }
+    },
+    "/utente/{email}": {
+      "get": {
+        "tags": ["Utente"],
+        "description": "Get user with {email}",
+        "parameters": [
+          {"name":"x-access-token", "in":"header", "type":"string"},
+          {"name":"email", "in":"path", "type":"string", "required":true}],
+        "responses": {
+          "200": {"description": "OK", "schema": {"$ref": "#/definitions/Utente" }, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
+        }
+      },
+      "delete": {
+        "tags": ["Utente"],
+        "description": "Delete user with {email}",
+        "parameters": [
+          {"name":"x-access-token", "in":"header", "type":"string"},
+          {"name":"email", "in":"path", "type":"string", "required":true}],
+        "responses": {
+          "200": {"description": "OK", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
+          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": ["Authentication"],
+        "description": "Authenticate and receive a token",
+        "parameters": [
+          { "name":"body", "in":"body","schema": {
+            "type" : "object",
+            "properties":{
+              "email" : {"type":"string"}, "password" : {"type":"string"}
+            }
+          }}],
+        "responses": {
+          "200": {"description": "OK", "schema": { "_id":"string", "iat":"integer","token":"string", "email": "string", "userType": {"type":"string", "enum":["cliente", "tecnico", "supervisore", "amministratore"]}}},
+          "401": {"description": "Email not correct"},
+          "403": {"description": "Password not correct"},
+          "500": {"description": "INTERNAL SERVER ERROR"}
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Utente": {
+      "type" : "object",
+      "properties": {
+        "nome": {"type":"string", "required":true},
+        "cognome": {"type":"string", "required":true},
+        "telefono": {"type":"string", "required":true, "unique":true},
+        "email": {"type":"string", "required":true, "unique":true},
+        "indirizzo": {"type":"string", "required":true},
+        "password": {"type":"string", "required":true},
+        "tipo": {"type":"string", "enum":["cliente", "tecnico", "supervisore", "amministratore"], "required":true, "default":"cliente"},
+        "email_confermata": {"type":"boolean", "required":true, "default":false},
+        "cf": {"type":"string", "unique":true},
+        "attivo": {"type":"boolean", "required":true, "default":true}
+      }
+    }
+  }
+}
