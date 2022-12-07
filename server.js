@@ -9,8 +9,9 @@ const swaggerDocument = require("./swagger.json")
 
 const routesAuth = require("./routes/auth")
 const routesUtente = require("./routes/utente")
+const routesImpianto = require("./routes/impianto")
 
-// logging
+//logging
 console.log("server started");
 console.log(process.env.DB_HOST)
 console.log(process.env.DB_USER)
@@ -25,7 +26,8 @@ app.use("/", (req, res, next) => {
 })
 app.use(tokenChecker)
 app.use("/", routesAuth)
-app.use("/", routesUtente) //to use the routes
+app.use("/", routesUtente)
+app.use("/", routesImpianto) //to use the routes
 
 mongoose.connect(
     process.env.MONGODB_URI,
