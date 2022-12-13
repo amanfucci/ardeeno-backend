@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "main", "develop"]
 
+env:
+  DB_HOST: '${{secrets.DB_HOST}}'
+  DB_USER: '${{secrets.DB_USER}}'
+  DB_PASS: '${{secrets.DB_PASS}}'
+  MONGODB_URI: '${{secrets.MONGODB_URI}}'
+  SUPER_SECRET: '${{secrets.SUPER_SECRET}}'
+
 jobs:
   build:
 
@@ -22,5 +29,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm test
+    - run: |
+        npm install
+        npm test
