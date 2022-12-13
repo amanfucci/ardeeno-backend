@@ -7,11 +7,11 @@ const UtenteSchema = new mongoose.Schema({
   nome: {type:String, required:true},
   cognome: {type:String, required:true},
   telefono: {type:String, required:true, unique:true},
-  email_confermata: {type:Boolean, required:true, default:false},
-  
-  tipo: {type:String, enum:["cliente", "tecnici", "supervisore", "amministratore"], required:true, default:"cliente"},  
+  isEmailConfermata: {type:Boolean, required:true, default:false},
+  impiantiAcquistati: [{type: mongoose.Schema.Types.ObjectId, ref: 'Impianto'}],
+  ruolo: {type:String, enum:["cliente", "tecnici", "supervisore", "amministratore"], required:true, default:"cliente"},
   cf: {type:String, unique:true},
-  attivo: {type:Boolean, required:true, default:true}
+  isDimesso: {type:Boolean, required:true, default:false}
 });
 
 const Utente = mongoose.model("Utente", UtenteSchema); //convert to model named Utente

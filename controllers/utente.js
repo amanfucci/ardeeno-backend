@@ -1,4 +1,4 @@
-StatusCodes = require("http-status-codes").StatusCodes
+const StatusCodes = require("http-status-codes").StatusCodes
 const { response } = require("express");
 const Utente = require("../models/utente")
 

@@ -1,4 +1,4 @@
-StatusCodes = require("http-status-codes").StatusCodes
+const StatusCodes = require("http-status-codes").StatusCodes
 const jwt = require("jsonwebtoken")
 const Utente = require("../models/utente")
 

@@ -1,4 +1,4 @@
-StatusCodes = require("http-status-codes").StatusCodes
+const StatusCodes = require("http-status-codes").StatusCodes
 const express = require("express")
 const jwt = require("jsonwebtoken")
 const authHierarchy =
