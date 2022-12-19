@@ -7,8 +7,8 @@ const tokenChecker = require("./middleware/tokenChecker")
 const swaggerUi = require("swagger-ui-express")
 const swaggerDocument = require("./swagger.json")
 
-const routesAuth = require("./routes/auth")
-const routesUtente = require("./routes/utente")
+const routesToken = require("./routes/token")
+const routesCliente = require("./routes/cliente")
 
 // logging
 console.log("server started");
@@ -24,8 +24,8 @@ app.use("/", (req, res, next) => {
   next()
 })
 app.use(tokenChecker)
-app.use("/", routesAuth)
-app.use("/", routesUtente) //to use the routes
+app.use("/", routesToken)
+app.use("/", routesCliente)
 
 mongoose.connect(
     process.env.MONGODB_URI,

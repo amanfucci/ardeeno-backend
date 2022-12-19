@@ -6,81 +6,46 @@
   },
   "host": "localhost:8080",
   "basePath": "/",
-  "tags": ["Utente", "Authentication"],
+  "tags": ["Cliente", "Authentication"],
   "schemes": ["http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/utente": {
+    "/register": {
       "post": {
-        "tags": ["Utente"],
-        "description": "Create a new user",
+        "tags": ["Cliente"],
+        "description": "Register as a Cliente",
         "parameters": [
-          {"name":"x-access-token", "in":"header", "type":"string"},
           { "name":"body",
           "in":"body",
-          "schema": {"$ref": "#/definitions/Utente"}}
-          ],
+          "schema": {
+            "type":"object",
+            "properties":{
+              "email":{"type":"string"},
+              "password":{"type":"string"},
+              "indirizzo":{"type":"string"},
+              "nome":{"type":"string"},
+              "cognome":{"type":"string"},
+              "telefono":{"type":"string"}
+            }}}],
         "responses": {
-          "201": {"description": "CREATED", "schema": {"$ref": "#/definitions/Utente" }, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
-        }
-      },
-      "get": {
-        "tags": ["Utente"],
-        "description": "Get all users in system",
-        "parameters": [
-          {"name":"x-access-token", "in":"header", "type":"string"}],   
-        "responses": {
-          "200": {"description": "OK", "schema": {
-            "type": "array",
-            "items": {
-            "$ref": "#/definitions/Utente" }}, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
-        }
-      },
-      "delete": {
-        "tags": ["Utente"],
-        "description": "Delete all users in system",
-        "parameters": [
-          {"name":"x-access-token", "in":"header", "type":"string"}],
-        "responses": {
-          "200": {"description": "OK", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
+          "201": {"description": "CREATED", "schema": {"type":"object", "properties": {"message":{"type":"string", "default": "New Cliente created"}, "_id": {"$ref": "#/definitions/Utente/properties/_id"}}}},
+          "500": {"description": "INTERNAL SERVER ERROR", "schema": {"type":"object", "properties": {"message":{"type":"string", "default": "undefined->Error registering Cliente"}}}}
         }
       }
     },
-    "/utente/{email}": {
+    "/myAcc":{
       "get": {
-        "tags": ["Utente"],
-        "description": "Get user with {email}",
+        "tags": ["Cliente"],
+        "description": "Get logged user information",
         "parameters": [
-          {"name":"x-access-token", "in":"header", "type":"string"},
-          {"name":"email", "in":"path", "type":"string", "required":true}],
+          {"name":"x-access-token", "in":"header", "type":"string"}],
         "responses": {
           "200": {"description": "OK", "schema": {"$ref": "#/definitions/Utente" }, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
-        }
-      },
-      "delete": {
-        "tags": ["Utente"],
-        "description": "Delete user with {email}",
-        "parameters": [
-          {"name":"x-access-token", "in":"header", "type":"string"},
-          {"name":"email", "in":"path", "type":"string", "required":true}],
-        "responses": {
-          "200": {"description": "OK", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "401": {"description": "Token non presente", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "403": {"description": "FORBIDDEN", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}},
-          "500": {"description": "INTERNAL SERVER ERROR", "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired", "valid"]}}}
+          "401": {"description": "Token non presente", "schema": {"type":"object", "properties":{"message":{"type":"string", "default":"Please, get a token first"}}}, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "enum":["empty", "expired"]}}},
+          "403": {"description": "FORBIDDEN", "schema": {"type":"object", "properties":{"message":{"type":"string", "default":"You are not allowed to access this resource"}}}, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "default":"valid"}}},
+          "404": {"description": "NOT FOUND", "schema": {"type":"object", "properties":{"message":{"type":"string", "default":"Error retrieving user data"}}},"headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "default":"valid"}}},
+          "500": {"description": "INTERNAL SERVER ERROR", "schema": {"type":"object", "properties":{"message":{"type":"string", "default":"undefined->Error retrieving user data"}}},"headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "default":"valid"}}}
         }
       }
     },
@@ -96,10 +61,9 @@
             }
           }}],
         "responses": {
-          "200": {"description": "OK", "schema": { "_id":"string", "iat":"integer","token":"string", "email": "string", "userType": {"type":"string", "enum":["cliente", "tecnico", "supervisore", "amministratore"]}}},
-          "401": {"description": "Email not correct"},
-          "403": {"description": "Password not correct"},
-          "500": {"description": "INTERNAL SERVER ERROR"}
+          "200": {"description": "OK", "schema": { "type" : "object", "properties":{"token":{"type":"string"}, "email":{"type":"string"}, "_id":{"type":"string"}, "ruolo": {"type":"string", "enum":["cliente", "tecnico", "supervisore", "amministratore"]}}}},
+          "404": {"description": "Utente not found", "schema": { "type" : "object", "properties":{"message":{"type":"string", "default": "Utente not found"}}}},
+          "403": {"description": "Wrong password", "schema": { "type" : "object", "properties":{"message":{"type":"string", "default": "Wrong password"}}}}
         }
       }
     }
@@ -108,16 +72,79 @@
     "Utente": {
       "type" : "object",
       "properties": {
+        "_id" : {"type":"string", "required":true, "unique":true},
+        "email": {"type":"string", "required":true, "unique":true},
+        "password": {"type":"string", "required":true},
+        "indirizzo": {"type":"string", "required":true},
         "nome": {"type":"string", "required":true},
         "cognome": {"type":"string", "required":true},
         "telefono": {"type":"string", "required":true, "unique":true},
-        "email": {"type":"string", "required":true, "unique":true},
-        "indirizzo": {"type":"string", "required":true},
-        "password": {"type":"string", "required":true},
-        "tipo": {"type":"string", "enum":["cliente", "tecnico", "supervisore", "amministratore"], "required":true, "default":"cliente"},
-        "email_confermata": {"type":"boolean", "required":true, "default":false},
+        "ruolo": {"type":"string", "enum":["cliente", "tecnico", "supervisore", "amministratore"], "default":"cliente"},
+        "isEmailConfermata": {"type":"boolean","default":false},
+        "impiantiAcquistati": {"type":"array", "items": {"type": "string", "$ref":"#/definitions/Impianto/properties/_id"}, "required":true, "default":[]},
         "cf": {"type":"string", "unique":true},
-        "attivo": {"type":"boolean", "required":true, "default":true}
+        "isDimesso": {"type":"boolean", "default":true}
+      }
+    },
+    "Modello": {
+      "type" : "object",
+      "properties": {
+        "_id": {"type":"string", "required":true, "unique":true},
+        "nomeModello": {"type":"string", "required":true, "unique":true},
+        "tipo": {"type":"string", "required":true},
+        "immagine": {"type":"string", "required":true},
+        "costo": {"type":"number", "required":true},
+        "numSensori": {"type":"number", "required":true},
+        "superficie": {"type":"number", "required":true},
+        "pi": {"type":"number", "required":true},
+        "parametri": {"type":"array", "items": {
+          "type" : "object",
+          "properties": {
+            "name": {"type":"string", "required":true},
+            "uom": {"type":"string", "required":true}}},
+          "required":true}
+      }
+    },
+    "Impianto":{
+      "type" : "object",
+      "properties": {
+        "_id" : {"type":"string", "required":true, "unique":true},
+        "modello": {"type": "string", "$ref":"#/definitions/Modello/properties/nomeModello", "required":true},
+        "indirizzo": {"type":"string", "required":true},
+        "fattura": {"type":"string", "required":true},
+        "superficie": {"type":"number", "required":true},
+        "dataAcquisto": {"type":"date-time", "required":true},
+        "dataDismissione": {"type":"date-time"},
+        "isDismesso": {"type":"boolean", "default":false},
+        "sensori": {"type":"array", "items": {"$ref":"#/definitions/Sensore/properties/_id"}, "default":[]}
+      }
+    },
+    "Sensore":{
+      "type" : "object",
+      "properties": {
+        "_id" : {"type":"string", "required":true, "unique":true},
+        "impianto": {"type": "string", "$ref":"#/definitions/Impianto/properties/_id", "required":true},
+        "lat": {"type":"number", "required":true},
+        "long": {"type":"number", "required":true},
+        "dataDismissione": {"type":"date-time"},
+        "isDismesso": {"type":"boolean", "default":false}
+      }
+    },
+    "Snapshot":{
+      "type" : "object",
+      "properties": {
+        "_id" : {"type":"string", "required":true, "unique":true},
+        "impianto": {"type": "string", "$ref":"#/definitions/Impianto/properties/_id", "required":true},
+        "timestamp": {"type":"date-time", "required":true, "unique":true}
+      }      
+    },
+    "Misurazione":{
+      "type" : "object",
+      "properties": {
+        "_id" : {"type":"string", "required":true, "unique":true},
+        "sensore": {"type": "string", "$ref":"#/definitions/Sensore/properties/_id", "required":true},
+        "timestamp": {"type": "date-time", "$ref":"#/definitions/Snapshot/properties/timestamp", "required":true},
+        "valori": {"type": "object", "required":true}
       }
     }
   }
