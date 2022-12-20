@@ -3,6 +3,7 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 const tokenChecker = require("./middleware/tokenChecker")
+const cors = require("cors")
 
 const swaggerUi = require("swagger-ui-express")
 const swaggerDocument = require("./swagger.json")
@@ -18,6 +19,7 @@ console.log(process.env.MONGODB_URI)
 console.log("see api-docs at http://localhost:8080/api-docs")
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use(cors())
 app.use(express.json())
 app.use("/", (req, res, next) => {
   console.log(req.body)
