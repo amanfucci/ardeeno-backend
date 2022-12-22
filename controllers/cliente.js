@@ -1,7 +1,11 @@
 const StatusCodes = require('http-status-codes').StatusCodes
 const { response } = require('express');
 const Utente = require('../models/utente')
-const bcrypt = require('bcrypt')
+const Impianto = require('../models/impianto')
+const Modello = require('../models/modello')
+const mongoose = require("mongoose")
+const bcrypt = require('bcrypt');
+const timespan = require('jsonwebtoken/lib/timespan');
 const HASH_ROUNDS=10
 
 // POST cliente
@@ -25,13 +29,35 @@ const newCliente = (req, res) => {
 //GET dati
 const getDati = (req, res) => {
   //find the specific utente with that email
-  Utente.findOne({ email: req.loggedUser.email }, (err, data) => {
+  Utente.findOne({ email: req.loggedUser.email },{__v:false, _id:false, isDimesso:false, impiantiAcquistati:false, ruolo:false, isEmailConfermata:false}, (err, data) => {
     if (err)
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:(void console.log(err))+'->Error retrieving user data'})
     else if(!data)
       res.status(StatusCodes.NOT_FOUND).json({message:'Error retrieving user data'})
     else
       res.status(StatusCodes.OK).json(data) //return the utente object if found
+  })
+}
+
+//GET dati
+const getImpianti = (req, res) => {
+  //find the specific utente with that email
+  Utente.findOne({ email: req.loggedUser.email }, async (err, userData) => {
+    if (err)
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:(void console.log(err))+'->Error retrieving user data'})
+    else if(!userData)
+      res.status(StatusCodes.NOT_FOUND).json({message:'Error retrieving user data'})
+    else{
+      const modelli = await Modello.find().exec()
+      Impianto.find({_id:{$in:userData.impiantiAcquistati}}, {__v:false, sensori:false}, (err, impianti) =>{
+        if(err)
+          res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:(void console.log(err))+'->Error retrieving user impianti'})
+        else
+          res.status(StatusCodes.OK).json(impianti.map(
+            imp=>{return { ...imp._doc, modello: modelli.find(m => ''+m._id == imp.modello).nomeModello}}
+            )) //return all impiantiAcquistati if found -- with "inner join" on modelli
+      })
+    }
   })
 }
 
@@ -68,5 +94,6 @@ const deleteOneUtente = (req, res) => {
 
 module.exports = {
   newCliente, 
-  getDati
+  getDati,
+  getImpianti
 }

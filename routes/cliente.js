@@ -7,6 +7,7 @@ const authChecker = require('../middleware/authChecker')
 const clienteController = require('../controllers/cliente')
 router.post('/register', clienteController.newCliente)
 router.get('/myAcc', authChecker('utente'), clienteController.getDati)
+router.get('/myAcc/impianti', authChecker('utente'), clienteController.getImpianti)
 
 /*
 router.get('/utente', authChecker('amministratore'), clienteController.getAllUtente)
