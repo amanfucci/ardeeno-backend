@@ -6,25 +6,30 @@ const tokenChecker = require("./middleware/tokenChecker")
 const cors = require("cors")
 
 const swaggerUi = require("swagger-ui-express")
-const swaggerDocument = require("./swagger.json")
+const swaggerDocument = require("./swagger3.json")
 
 const routesToken = require("./routes/token")
 const routesCliente = require("./routes/cliente")
 
 // logging
-console.log("server started");
-console.log(process.env.DB_HOST)
-console.log(process.env.DB_USER)
-console.log(process.env.MONGODB_URI)
+console.log("...server started");
+console.log("DB_HOST="+process.env.DB_HOST)
+console.log("DB_USER="+process.env.DB_USER)
+console.log("MONGODB_URI="+process.env.MONGODB_URI)
 console.log("see api-docs at http://localhost:8080/api-docs")
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(cors())
 app.use(express.json())
 app.use("/", (req, res, next) => {
-  console.log(req.body)
+  console.log({
+    'x-acces-token':req.headers?.['x-access-token'],
+    ...req.params,
+    ...req.body
+  })
   next()
 })
+
 app.use(tokenChecker)
 app.use("/", routesToken)
 app.use("/", routesCliente)

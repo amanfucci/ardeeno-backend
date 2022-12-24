@@ -3,6 +3,8 @@ const mongoose = require("mongoose")
 const ImpiantoSchema = new mongoose.Schema({
   modello: {type: mongoose.Schema.Types.ObjectId, ref:'Modello', required:true},
   indirizzo: {type:String, required:true},
+  lat: {type:Number, required:true},
+  long: {type:Number, required:true},
   fattura: {type:String, required:true},
   superficie: {type:Number, required:true},//effettiva in km^2
   dataAcquisto: {type:Date, required:true},

@@ -14,8 +14,8 @@ const authHierarchy =
 const authChecker = function(requiredRuolo){
   return function(req, res, next) {
     if(req.loggedUser == null)
-      res.status(StatusCodes.UNAUTHORIZED).json({message:'Please, get a token first'})
-    else if(authHierarchy[requiredRuolo].find(e => e === req.loggedUser.ruolo) == undefined)
+      res.status(StatusCodes.UNAUTHORIZED).json({message:'Please, get a valid token first'})
+    else if(authHierarchy[requiredRuolo].every(e => e !== req.loggedUser.ruolo))
       res.status(StatusCodes.FORBIDDEN).json({message:'You are not allowed to access this resource'})
     else next()
   }

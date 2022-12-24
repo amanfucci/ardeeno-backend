@@ -1,7 +1,7 @@
 # ardeeno-backend
 Fast deployment with heroku at [api.ardeeno.cloud](http://api.ardeeno.cloud). Docs are available at [api.ardeeno.cloud/api-docs](http://api.ardeeno.cloud/api-docs).
 
-Following [swagger 2.0](https://swagger.io/specification/v2/) API standard.
+Following [Open Api 3.0](https://swagger.io/specification/) API standard.
 
 ## WorkFlow
 - `main(production)` branch: Only fully-tested production-level code to be deployed

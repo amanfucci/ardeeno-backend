@@ -1,0 +1,992 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.1.0",
+    "title": "@t41-se22/ardeeno-backend"
+  },
+  "tags": ["Cliente", "Authentication"],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Cliente"],
+        "description": "Register as a Cliente",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "indirizzo": {
+                    "type": "string"
+                  },
+                  "nome": {
+                    "type": "string"
+                  },
+                  "cognome": {
+                    "type": "string"
+                  },
+                  "telefono": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "CREATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "New Cliente created"
+                    },
+                    "_id": {
+                      "$ref": "#/components/schemas/Utente/properties/_id"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code":{
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "code0": {
+                    "value":{
+                      "code":0,
+                      "message":"Error registering Cliente - email already used"
+                    }
+                  },
+                  "code1": {
+                    "value":{
+                      "code":1,
+                      "message":"Error registering Cliente - telefono already used"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code":{
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "code2": {
+                    "value":{
+                      "code": 2,
+                      "message": "Error registering Cliente"
+                    }
+                  },
+                  "code3": {
+                    "value":{
+                      "code": 3,
+                      "message": "Error registering Cliente"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/myAcc": {
+      "get": {
+        "tags": ["Cliente"],
+        "description": "Get logged user information",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "enum": ["empty", "expired", "valid"]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Utente"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token non presente",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "enum": ["empty", "expired"]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Please, get a valid token first"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "default": "valid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "code0": {
+                    "value":{
+                      "code": 0,
+                      "message": "Error retrieving user data"
+                    }
+                  },
+                  "code1": {
+                    "value": {
+                      "code": 1,
+                      "message": "Error retrieving user data"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/myAcc/impianti": {
+      "get": {
+        "tags": ["Cliente"],
+        "description": "Get all impiantiAcquistati of the logged user",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "enum": ["empty", "expired", "valid"]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Impianto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token non presente",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "enum": ["empty", "expired"]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Please, get a valid token first"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "default": "valid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "code0": {
+                    "value": {
+                      "code": 0,
+                      "message": "Error retrieving user data"
+                    }
+                  },
+                  "code1": {
+                    "value": {
+                      "code": 1,
+                      "message": "Error retrieving user impianti"
+                    }
+                  },
+                  "code2": {
+                    "value": {
+                      "code": 2,
+                      "message": "Error retrieving user data"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/myAcc/impianti/{selImpId}/heatmap": {
+      "get": {
+        "tags": ["Cliente"],
+        "description": "Get the Heatmap representation of the Impianto {selImpId}",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "selImpId",
+            "in": "path",
+            "description": "_id of the impianto; must be an Impianto owned by the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "enum": ["empty", "expired", "valid"]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "lat": {
+                      "type": "number"
+                    },
+                    "long": {
+                      "type": "number"
+                    },
+                    "parametri": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "uom": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "sensori": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Sensore"
+                      }
+                    },
+                    "snapshots": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token scaduto o non presente",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "enum": ["empty", "expired"]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Please, get a valid token first"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "code1": {
+                    "value": {
+                      "code": 1,
+                      "message": "Error retrieving impianto - no such impianto for this user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "default": "valid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "code0": {
+                    "value": {
+                      "code": 0,
+                      "message": "Error retrieving user data"
+                    }
+                  },
+                  "code2": {
+                    "value": {
+                      "code": 2,
+                      "message": "Error retrieving impianto"
+                    }
+                  },
+                  "code3": {
+                    "value": {
+                      "code": 3,
+                      "message": "Error retrieving snapshots"
+                    }
+                  },
+                  "code4": {
+                    "value": {
+                      "code": 4,
+                      "message": "Error retrieving sensori"
+                    }
+                  },
+                  "code5": {
+                    "value": {
+                      "code": 5,
+                      "message": "Error retrieving impianto"
+                    }
+                  },
+                  "code6": {
+                    "value": {
+                      "code": 6,
+                      "message": "Error retrieving user data"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/myAcc/impianti/{selImpId}/snapshots/{selSnapTs}": {
+      "get": {
+        "tags": ["Cliente"],
+        "description": "Get all Misurazione taken in a given Snapshot {selSnapTs} by the Impianto {selImpId}",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "selImpId",
+            "in": "path",
+            "description": "_id of the impianto; must be an Impianto owned by the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "selSnapTs",
+            "in": "path",
+            "description": "timestamp of a snapshot recorded by the Impianto, as obtained by new Date(...).getTime()",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Misurazione"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token non presente",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "enum": ["empty", "expired"]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Please, get a valid token first"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "default": "valid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Error retrieving user data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "headers": {
+              "x-token-status": {
+                "description": "The status of the token sent",
+                "schema": {
+                  "type": "string",
+                  "default": "valid"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "undefined->Error retrieving user data"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": ["Authentication"],
+        "description": "Authenticate and receive a token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "ruolo": {
+                      "type": "string",
+                      "enum": [
+                        "cliente",
+                        "tecnico",
+                        "supervisore",
+                        "amministratore"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Wrong password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "default": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "default": "Wrong password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Utente not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "default": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "default": "Utente not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error generating token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number",
+                      "default": 2
+                    },
+                    "message": {
+                      "type": "string",
+                      "default": "Error generating token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Utente": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "unique": true
+          },
+          "email": {
+            "type": "string",
+            "unique": true
+          },
+          "password": {
+            "type": "string"
+          },
+          "indirizzo": {
+            "type": "string"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "cognome": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string",
+            "unique": true
+          },
+          "ruolo": {
+            "type": "string",
+            "enum": ["cliente", "tecnico", "supervisore", "amministratore"],
+            "default": "cliente"
+          },
+          "isEmailConfermata": {
+            "type": "boolean",
+            "default": false
+          },
+          "impiantiAcquistati": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Impianto/properties/_id"
+            },
+            "default": []
+          },
+          "cf": {
+            "type": "string",
+            "unique": true
+          },
+          "isDimesso": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "Modello": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "unique": true
+          },
+          "nome": {
+            "type": "string",
+            "unique": true
+          },
+          "tipo": {
+            "type": "string"
+          },
+          "immagine": {
+            "type": "string"
+          },
+          "costo": {
+            "type": "number"
+          },
+          "numSensori": {
+            "type": "number"
+          },
+          "superficie": {
+            "type": "number"
+          },
+          "pi": {
+            "type": "number"
+          },
+          "parametri": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "uom": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Impianto": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "unique": true
+          },
+          "modello": {
+            "$ref": "#/components/schemas/Modello/properties/_id"
+          },
+          "indirizzo": {
+            "type": "string"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "long": {
+            "type": "number"
+          },
+          "fattura": {
+            "type": "string"
+          },
+          "superficie": {
+            "type": "number"
+          },
+          "dataAcquisto": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataDismissione": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDismesso": {
+            "type": "boolean",
+            "default": false
+          },
+          "sensori": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sensore/properties/_id"
+            },
+            "default": []
+          }
+        }
+      },
+      "Sensore": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "unique": true
+          },
+          "impianto": {
+            "$ref": "#/components/schemas/Impianto/properties/_id"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "long": {
+            "type": "number"
+          },
+          "dataDismissione": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDismesso": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "Snapshot": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "unique": true
+          },
+          "impianto": {
+            "$ref": "#/components/schemas/Impianto/properties/_id"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "unique": true
+          }
+        }
+      },
+      "Misurazione": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "unique": true
+          },
+          "sensore": {
+            "$ref": "#/components/schemas/Sensore/properties/_id"
+          },
+          "date": {
+            "$ref": "#/components/schemas/Snapshot/properties/date"
+          },
+          "valori": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

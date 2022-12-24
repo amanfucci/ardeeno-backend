@@ -5,9 +5,12 @@ const authChecker = require('../middleware/authChecker')
 
 // API Cliente
 const clienteController = require('../controllers/cliente')
-router.post('/register', clienteController.newCliente)
-router.get('/myAcc', authChecker('utente'), clienteController.getDati)
-router.get('/myAcc/impianti', authChecker('utente'), clienteController.getImpianti)
+
+router.post('/register', clienteController.newCliente)//ds
+router.get('/myAcc', authChecker('utente'), clienteController.getDati)//ds
+router.get('/myAcc/impianti', authChecker('utente'), clienteController.getImpianti)//ds
+router.get('/myAcc/impianti/:selImpId/heatmap', authChecker('utente'), clienteController.getHeatmap)//ds
+router.get('/myAcc/impianti/:selImpId/snapshots/:selSnapTs', authChecker('utente'), clienteController.getOneSnapshot)//ds
 
 /*
 router.get('/utente', authChecker('amministratore'), clienteController.getAllUtente)
