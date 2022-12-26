@@ -1,0 +1,36 @@
+[{
+  "_id": "639f2d4574aef65fb510cb8b",
+  "tipo": "FP",
+  "immagine": "/media/fp_a.png",
+  "costo": {
+    "unit": 97412,
+    "cent": 73
+  },
+  "numSensori": 200,
+  "superficie": 20,
+  "pi": 5,
+  "parametri": [
+    {
+      "name": "tvoc",
+      "uom": "ppb"
+    },
+    {
+      "name": "temp",
+      "uom": "°C"
+    },
+    {
+      "name": "CO2",
+      "uom": "ppm"
+    },
+    {
+      "name": "hum_rel",
+      "uom": "%"
+    },
+    {
+      "name": "O2",
+      "uom": "ppm"
+    }
+  ],
+  "__v": 0,
+  "nome": "FP200A"
+}]

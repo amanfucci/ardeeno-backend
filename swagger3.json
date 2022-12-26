@@ -461,7 +461,7 @@
                   "code1": {
                     "value": {
                       "code": 1,
-                      "message": "Error retrieving impianto - no such impianto for this user"
+                      "message": "Error retrieving impianto - No such impianto for this user"
                     }
                   }
                 }
@@ -622,9 +622,25 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "code": {
+                      "type": "number"
+                    },
                     "message": {
-                      "type": "string",
-                      "default": "Error retrieving user data"
+                      "type": "string"
+                      }
+                  }
+                },
+                "examples": {
+                  "code0": {
+                    "value":{
+                      "code": 1,
+                      "message": "Error retrieving impianto - No such impianto for this user"
+                    }
+                  },
+                  "code1": {
+                    "value":{
+                      "code": 3,
+                      "message": "Error retrieving snapshot - No such snapshot"
                     }
                   }
                 }
@@ -647,9 +663,44 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "code": {
+                      "type": "number"
+                    },
                     "message": {
                       "type": "string",
-                      "default": "undefined->Error retrieving user data"
+                      "default": "Error retrieving user data"
+                    }
+                  }
+                },
+                "examples":{
+                  "code0": {
+                    "value":{
+                      "code": 0,
+                      "message": "Error retrieving user data"
+                    }
+                  },
+                  "code2": {
+                    "value":{
+                      "code": 2,
+                      "message": "Error retrieving impianto"
+                    }
+                  },
+                  "code4": {
+                    "value":{
+                      "code": 4,
+                      "message": "Error retrieving misurazioni"
+                    }
+                  },
+                  "code5": {
+                    "value":{
+                      "code": 5,
+                      "message": "Error retrieving impianto"
+                    }
+                  },
+                  "code6": {
+                    "value":{
+                      "code": 6,
+                      "message": "Error retrieving user data"
                     }
                   }
                 }
@@ -777,7 +828,12 @@
   },
   "servers": [
     {
+      "name": "Local",
       "url": "http://localhost:8080"
+    },
+    {
+      "name": "Deployment",
+      "url": "http://api.ardeeno.cloud"
     }
   ],
   "components": {

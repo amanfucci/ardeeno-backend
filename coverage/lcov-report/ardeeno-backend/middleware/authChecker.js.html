@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.81% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/22</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.81% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/22</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
@@ -84,7 +84,9 @@
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -98,32 +100,36 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const StatusCodes = require("http-status-codes").StatusCodes
-const express = require("express")
-const jwt = require("jsonwebtoken")
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const StatusCodes = require('http-status-codes').StatusCodes
+const express = require('express')
+const jwt = require('jsonwebtoken')
 const authHierarchy =
 {
-"utente" : ["cliente", "tecnico", "supervisore", "amministratore"],
-"cliente" : ["cliente"],
-"dipendente" : ["tecnico", "supervisore", "amministratore"],
-"tecnico" : ["tecnico"],
-"supervisore" : ["supervisore", "amministratore"],
-"amministratore" : ["amministratore"]
+'utente' : ['cliente', 'tecnico', 'supervisore', 'amministratore'],
+'cliente' : ['cliente'],
+'dipendente' : ['tecnico', 'supervisore', 'amministratore'],
+'tecnico' : ['tecnico'],
+'supervisore' : ['supervisore', 'amministratore'],
+'amministratore' : ['amministratore']
 }
 &nbsp;
-const authChecker = function(requiredUserType){
+const authChecker = function(requiredRuolo){
   return function(req, res, next) {
-<span class="cstat-no" title="statement not covered" >    if(req.loggedUser == null) res.status(StatusCodes.UNAUTHORIZED).json()</span>
-<span class="cstat-no" title="statement not covered" >    else if(authHierarchy[requiredUserType].find(e =&gt; e === req.loggedUser.userType) == undefined) res.status(StatusCodes.FORBIDDEN).json()</span>
-<span class="cstat-no" title="statement not covered" >    else next()</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+    if(req.loggedUser == null)
+<span class="branch-0 cbranch-no" title="branch not covered" >      res.status(StatusCodes.UNAUTHORIZED).json({message:'Please, get a valid token first'})</span>
+    else if(authHierarchy[requiredRuolo].every(e =&gt; e !== req.loggedUser.ruolo))
+<span class="branch-0 cbranch-no" title="branch not covered" >      res.status(StatusCodes.FORBIDDEN).json({message:'You are not allowed to access this resource'})</span>
+    else next()
+  }
 }
 &nbsp;
 module.exports = authChecker</pre></td></tr></table></pre>
@@ -133,7 +139,7 @@ module.exports = authChecker</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-13T20:29:44.719Z
+                at 2022-12-26T10:37:01.168Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

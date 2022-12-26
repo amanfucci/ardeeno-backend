@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for ardeeno-backend/models/utente.js</title>
+    <title>Code coverage report for ardeeno-backend/models/impianto.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">ardeeno-backend/models</a> utente.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">ardeeno-backend/models</a> impianto.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/18</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/18</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -79,8 +79,7 @@
 <a name='L14'></a><a href='#L14'>14</a>
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
-<a name='L17'></a><a href='#L17'>17</a>
-<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L17'></a><a href='#L17'>17</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -96,25 +95,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose')
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require("mongoose")
 // schema
-const UtenteSchema = new mongoose.Schema({
-  email: {type:String, required:true, unique:true},
-  password: {type:String, required:true},
+const ImpiantoSchema = new mongoose.Schema({
+  modello: {type: mongoose.Schema.Types.ObjectId, ref:'Modello', required:true},
   indirizzo: {type:String, required:true},
-  nome: {type:String, required:true},
-  cognome: {type:String, required:true},
-  telefono: {type:String, required:true, unique:true},
-  ruolo: {type:String, enum:['cliente', 'tecnico', 'supervisore', 'amministratore'], default:'cliente'},
-  isEmailConfermata: {type:Boolean, default:true},
-  impiantiAcquistati: {type:[{type: mongoose.Schema.Types.ObjectId, ref: 'Impianto'}], default:[]},
-  cf: {type:String, unique:true, sparse:true},
-  isDimesso: {type:Boolean, default:false}
+  lat: {type:Number, required:true},
+  long: {type:Number, required:true},
+  fattura: {type:String, required:true},
+  superficie: {type:Number, required:true},//effettiva in km^2
+  dataAcquisto: {type:Date, required:true},
+  dataDismissione: {type:Date},
+  isDismesso: {type:Boolean, default:false},
+  sensori: {type:[{type: mongoose.Schema.Types.ObjectId, ref:'Sensore'}], default:[]}
 });
 &nbsp;
-const Utente = mongoose.model('Utente', UtenteSchema, 'Utenti'); //convert to model named Utente
-module.exports = Utente</pre></td></tr></table></pre>
+const Impianto = mongoose.model('Impianto', ImpiantoSchema, 'Impianti'); //convert to model named Impianto
+module.exports = Impianto</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

@@ -1,0 +1,27 @@
+[{
+  "_id": "639f1c3274aef65fb510cb79",
+  "email": "mario.rossi@gmail.com",
+  "password": "$2b$10$bB6fwaC7DCR2NAjB7n7dM.qpmB9iLd5PhKIRPPGC.TPyAS09Tu9o2",
+  "indirizzo": "Via dei Valoni 1",
+  "nome": "Mario",
+  "cognome": "Rossi",
+  "telefono": "1",
+  "ruolo": "cliente",
+  "isEmailConfermata": true,
+  "impiantiAcquistati": ["639f2df174aef65fb510cb8f"],
+  "isDimesso": false,
+  "__v": 0
+},{
+  "_id": "63a745d53145778fc7a7e890",
+  "email": "luca.rossi@gmail.com",
+  "password": "$2b$10$eHbVgYqO80vCpe43nyVY/.TZkZzc/5FumeJBN2JSSBWus680d1v8q",
+  "indirizzo": "Via dei Valoni 2",
+  "nome": "Luca",
+  "cognome": "Rossi",
+  "telefono": "2",
+  "ruolo": "cliente",
+  "isEmailConfermata": true,
+  "impiantiAcquistati": [],
+  "isDimesso": false,
+  "__v": 0
+}]

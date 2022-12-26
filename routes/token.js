@@ -4,6 +4,6 @@ const router = express.Router()
 
 // API Authentication
 const tokenController = require("../controllers/token")
-router.post("/auth", tokenController.genToken)
+router.post("/auth", tokenController.genToken)//dst
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const StatusCodes = require('http-status-codes').StatusCodes
-const { res } = require('express')
 const Utente = require('../models/utente')
 const Impianto = require('../models/impianto')
 const Modello = require('../models/modello')
@@ -10,7 +9,7 @@ const MisurazioneSchema = require('../schemas/misurazioneSchema')
 const mongoose = require("mongoose")
 const bcrypt = require('bcrypt')
 const HASH_ROUNDS=10
-//"403": {"description": "FORBIDDEN", "schema": {"type":"object", "properties":{"message":{"type":"string", "default":"You are not allowed to access this resource"}}}, "headers": {"x-token-status": {"description": "The status of the token sent", "type":"string", "default":"valid"}}},
+
 // POST cliente
 const newCliente = async (req, res) => {
   // create a new cliente object using the Utente model and req.body
@@ -58,7 +57,7 @@ const getDati = async (req, res) => {
   }
 }
 
-//GET dati
+//GET impianti
 const getImpianti = async (req, res) => {
   //find the specific utente with that email
   try{
@@ -94,7 +93,7 @@ const getHeatmap = async (req, res) => {
       const selImpId = req.params.selImpId
       //devo controllare che l'utente abbia questo impianto
       if(userData.impiantiAcquistati.every(e => e != selImpId)){//non ce l'ha => request error
-        res.status(StatusCodes.NOT_FOUND).json({code:1, message:'Error retrieving impianto - no such impianto for this user'})
+        res.status(StatusCodes.NOT_FOUND).json({code:1, message:'Error retrieving impianto - No such impianto for this user'})
       }
       else{
         try{
@@ -148,7 +147,7 @@ const getOneSnapshot = async (req, res) => {
       const selImpId = req.params.selImpId
       //devo controllare che l'utente abbia questo impianto
       if(userData.impiantiAcquistati.every(e => e._id != selImpId)){//non ce l'ha => request error
-        res.status(StatusCodes.NOT_FOUND).json({code:1, message:'Error retrieving impianto - no such impianto for this user'})
+        res.status(StatusCodes.NOT_FOUND).json({code:1, message:'Error retrieving impianto - No such impianto for this user'})
       }
       else{
         try{
@@ -158,25 +157,29 @@ const getOneSnapshot = async (req, res) => {
           }else{
             try{
               //get snapshot
-              //no such snapshot
               const selSnapDate = new Date(parseInt(req.params.selSnapTs))
-              const selImpMisurazione = mongoose.model('Misurazione', MisurazioneSchema, 'Misurazioni_'+selImpId)
-              const selImpMis = await selImpMisurazione.find({date:selSnapDate}, {_id:false, sensore:true, valori:true}).exec()
-              res.status(StatusCodes.OK).json(selImpMis)
-            }catch(err){ //mongo error
+              const selImpSnapshot = mongoose.model('Snapshot', SnapshotSchema, 'Snapshots_'+selImp._id)
+              if(await selImpSnapshot.findOne({date: selSnapDate})){
+                const selImpMisurazione = mongoose.model('Misurazione', MisurazioneSchema, 'Misurazioni_'+selImpId)
+                const selImpMis = await selImpMisurazione.find({date:selSnapDate}, {_id:false, sensore:true, valori:true}).exec()
+                res.status(StatusCodes.OK).json(selImpMis)
+              }else{//no such snapshot
+                res.status(StatusCodes.NOT_FOUND).json({code:3, message:'Error retrieving snapshot - No such snapshot'})
+              }
+            }catch(err){//mongo error
               console.log(err)
-              res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code:3, message:'Error retrieving misurazioni'})
+              res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code:4, message:'Error retrieving misurazioni'})
             }
           }
         }catch(err){// mongo error
           console.log(err)
-          res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code:4, message:'Error retrieving impianto'})
+          res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code:5, message:'Error retrieving impianto'})
         }
       }
     }
   }catch(err){//mongo error
     console.log(err)
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code:5, message:'Error retrieving user data'})
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code:6, message:'Error retrieving user data'})
   }
 }
 

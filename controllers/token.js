@@ -7,7 +7,7 @@ const genToken = async (req, res) => {
   try{
     let utente = await Utente.findOne({ email: req.body.email }).exec()
     if (!utente)
-      res.status(StatusCodes.NOT_FOUND).json({code: 0, message:'Utente not found!'})
+      res.status(StatusCodes.NOT_FOUND).json({code: 0, message:'Utente not found'})
     else if(!bcrypt.compareSync(req.body.password, utente.password))
       res.status(StatusCodes.FORBIDDEN).json({code: 1, message:'Wrong password'})
     else{
@@ -19,7 +19,7 @@ const genToken = async (req, res) => {
     }
   }catch(err){
     console.log(err)
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code:2, message:'Error generating token!'})
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code:2, message:'Error generating token'})
   }
 }
 
