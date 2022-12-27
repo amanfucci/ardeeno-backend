@@ -1,6 +1,6 @@
 {
   "name": "@t41-se22/ardeeno-backend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:t41-se22/ardeeno-backend.git"
@@ -23,9 +23,6 @@
     "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.5",
-    "@babel/preset-env": "^7.20.2",
-    "babel-jest": "^29.3.1",
     "jest": "^29.3.1",
     "supertest": "^6.3.3"
   }

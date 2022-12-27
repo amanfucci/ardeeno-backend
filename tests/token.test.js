@@ -1,7 +1,7 @@
-import { StatusCodes } from 'http-status-codes'
+const StatusCodes = require('http-status-codes').StatusCodes
 const request = require('supertest')
 const app = require('../app')
-import setup from './database/setup'
+const setup = require('./database/setup')
 
 
 jest.setTimeout(30000)

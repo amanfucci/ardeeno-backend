@@ -175,6 +175,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "code":{
+                      "type":"number",
+                      "default":-1
+                    },
                     "message": {
                       "type": "string",
                       "default": "Please, get a valid token first"
@@ -280,6 +284,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "code":{
+                      "type":"number",
+                      "default":-1
+                    },
                     "message": {
                       "type": "string",
                       "default": "Please, get a valid token first"
@@ -433,6 +441,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "code":{
+                      "type":"number",
+                      "default":-1
+                    },
                     "message": {
                       "type": "string",
                       "default": "Please, get a valid token first"
@@ -597,6 +609,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "code":{
+                      "type":"number",
+                      "default":-1
+                    },
                     "message": {
                       "type": "string",
                       "default": "Please, get a valid token first"
@@ -727,6 +743,26 @@
                     "type": "string"
                   }
                 }
+              },
+              "examples":{
+                "Ok":{
+                  "value":{
+                    "email": "mario.rossi@gmail.com",
+                    "password": "password"
+                  }
+                },
+                "Wrong Password":{
+                  "value":{
+                    "email": "mario.rossi@gmail.com",
+                    "password": "wrong password"
+                  }
+                },
+                "Utente not found":{
+                  "value":{
+                    "email": "giovanni.rossi@gmail.com",
+                    "password": "password"
+                  }                  
+                }
               }
             }
           }
@@ -740,13 +776,16 @@
                   "type": "object",
                   "properties": {
                     "token": {
-                      "type": "string"
+                      "type": "string",
+                      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmlvLnJvc3NpQGdtYWlsLmNvbSIsIl9pZCI6IjYzOWYxYzMyNzRhZWY2NWZiNTEwY2I3OSIsInJ1b2xvIjoiY2xpZW50ZSIsImlhdCI6MTY3MTg2NTA4NywiZXhwIjoxNjcxOTUxNDg3fQ.rsVaol6jQejRdQUpLku6UnMNN5aqkaxRZs4Fv_w6Unc"
                     },
                     "email": {
-                      "type": "string"
+                      "type": "string",
+                      "default": "mario.rossi@gmail.com"
                     },
                     "_id": {
-                      "type": "string"
+                      "type": "string",
+                      "default": "639f1c3274aef65fb510cb79"
                     },
                     "ruolo": {
                       "type": "string",
@@ -755,7 +794,8 @@
                         "tecnico",
                         "supervisore",
                         "amministratore"
-                      ]
+                      ],
+                      "default": "cliente"
                     }
                   }
                 }

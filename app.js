@@ -28,7 +28,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(cors())
 app.use(express.json())
 app.use("/", (req, res, next) => {
-  console.log({
+  console.log(
+    req.method, req.path, {
     'x-access-token':req.headers?.['x-access-token'],
     ...req.params,
     ...req.body

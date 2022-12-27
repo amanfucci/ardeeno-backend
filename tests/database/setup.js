@@ -1,15 +1,15 @@
-import Utente from '../../models/utente'
-import Impianto from '../../models/impianto'
-import Modello from '../../models/modello'
-import Sensore from '../../models/sensore'
-import SnapshotSchema from '../../schemas/snapshotSchema'
-import MisurazioneSchema from '../../schemas/misurazioneSchema'
+const Utente = require('../../models/utente')
+const Impianto = require('../../models/impianto')
+const Modello = require('../../models/modello')
+const Sensore = require('../../models/sensore')
+const SnapshotSchema = require('../../schemas/snapshotSchema')
+const MisurazioneSchema = require('../../schemas/misurazioneSchema')
 
-import fs from 'fs'
+const fs = require('fs')
 
 const mongoose = require('mongoose')
 
-export default async () => {
+module.exports = async () => {
   /*/set up test database
   \{
     "\$oid": (".*")

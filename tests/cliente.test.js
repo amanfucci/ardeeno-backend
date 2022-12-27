@@ -1,9 +1,8 @@
-import { StatusCodes } from 'http-status-codes'
+const StatusCodes = require('http-status-codes').StatusCodes
 const request = require('supertest')
 const app = require('../app')
-import setup from './database/setup'
-import jwt from 'jsonwebtoken'
-
+const setup = require('./database/setup')
+const jwt = require('jsonwebtoken')
 
 jest.setTimeout(30000)
 beforeAll(async () => await setup())
@@ -22,7 +21,7 @@ describe('POST /register', () => {
       email:'giovanni1.rossi@gmail.com',
       password:'password',
       indirizzo: 'Via dei Valoni 31',
-      nome: 'Giovanni',
+      nome: 'Giovanni1',
       cognome: 'Rossi',
       telefono: 31
     })
