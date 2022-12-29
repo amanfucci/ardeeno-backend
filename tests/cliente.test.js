@@ -80,7 +80,6 @@ describe('GET /myAcc', () => {
     .expect('x-token-status', 'valid')
     .expect({
       email: 'mario.rossi@gmail.com',
-      password: '$2b$10$bB6fwaC7DCR2NAjB7n7dM.qpmB9iLd5PhKIRPPGC.TPyAS09Tu9o2',
       indirizzo: 'Via dei Valoni 1',
       nome: 'Mario',
       cognome: 'Rossi',
@@ -108,9 +107,7 @@ describe('GET /myAcc/impianti', () => {
         fattura: '697999697895',
         superficie: 26.35,
         dataAcquisto: '2022-12-12T00:00:00.000Z',
-        isDismesso: false,
-        lat: 46.03445003002628,
-        long: 11.313431342955184
+        isDismesso: false
       }
     ])
   })  

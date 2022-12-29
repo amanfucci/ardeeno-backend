@@ -45,7 +45,7 @@ const getDati = async (req, res) => {
   try{
     const userData = await Utente.findOne(
       { email: req.loggedUser.email },
-      {__v:false, _id:false, isDimesso:false, impiantiAcquistati:false, ruolo:false, isEmailConfermata:false}).exec()
+      {__v:false, _id:false, isDimesso:false, impiantiAcquistati:false, ruolo:false, isEmailConfermata:false, password:false}).exec()
     if(!userData){//ha token ma non lo trovo => mongo error
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({code: 0, message:'Error retrieving user data'})
     }else{
@@ -67,7 +67,7 @@ const getImpianti = async (req, res) => {
     }else{
       try{
         const modelli = await Modello.find().exec()
-        const impianti = await Impianto.find({_id:{$in:userData.impiantiAcquistati}}, {__v:false, sensori:false}).exec()
+        const impianti = await Impianto.find({_id:{$in:userData.impiantiAcquistati}}, {__v:false, sensori:false, lat:false, long:false}).exec()
         res.status(StatusCodes.OK).json(impianti.map(
           imp=>{return { ...imp._doc, modello: modelli.find(m => ''+m._id == imp.modello).nome}}
         )) //return all impiantiAcquistati if found -- with "inner join" on modelli
