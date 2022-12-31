@@ -868,12 +868,20 @@
   },
   "servers": [
     {
-      "name": "Local",
+      "description": "Local",
       "url": "http://localhost:8080"
     },
     {
-      "name": "Deployment",
+      "description": "Heroku .cloud",
       "url": "http://api.ardeeno.cloud"
+    },
+    {
+      "description": "Heroku .best",
+      "url": "http://api.ardeeno.best"
+    },
+    {
+      "description": "Heroku",
+      "url": "http://ardeeno-backend.herokuapp.com"
     }
   ],
   "components": {

@@ -33,3 +33,15 @@ Deployment to Heroku is automated on any push (and merge) to `main`.
       checkout main
       merge develop
 ```
+
+## Usage
+
+### .env
+```bash
+DB_HOST=
+DB_USER=
+DB_PASS=
+PORT=
+MONGODB_URI=
+SUPER_SECRET=
+```
