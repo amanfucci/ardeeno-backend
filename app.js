@@ -11,7 +11,7 @@ const swaggerDocument = require("./swagger3.json")
 const routesToken = require("./routes/token")
 const routesCliente = require("./routes/cliente")
 
-const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer;
+
 
 const isJest = () => {
   return process.env.JEST_WORKER_ID !== undefined;
@@ -41,20 +41,7 @@ app.use(tokenChecker)
 app.use("/", routesToken)
 app.use("/", routesCliente)
 
-if(isJest()){
-  // Create mock in-memory database
-  MongoMemoryServer.create().then((mongodb)=>{
-    const mongodb_uri = mongodb.getUri();
-      mongoose.connect(
-        mongodb_uri,
-        {useNewUrlParser: true, useUnifiedTopology: true},
-        (err) => {
-          if (err) return console.log("Error: ", err)
-          console.log("Mock MongoDB Connection -- Ready state is:", mongoose.connection.readyState)
-        }
-      )    
-  });
-}else{
+if(!isJest()){
   mongoose.connect(
     process.env.MONGODB_URI,
     {useNewUrlParser: true, useUnifiedTopology: true},

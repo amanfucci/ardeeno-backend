@@ -1,11 +1,12 @@
 const StatusCodes = require('http-status-codes').StatusCodes
 const request = require('supertest')
 const app = require('../app')
-const setup = require('./database/setup')
+const {setup, teardown}  = require('./database/database')
 const jwt = require('jsonwebtoken')
 
 jest.setTimeout(30000)
 beforeAll(async () => await setup())
+afterAll(async () => await teardown())
 
 const genToken = (email, _id, ruolo) => {
   var payload = { email: email, _id:_id, ruolo:ruolo}

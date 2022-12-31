@@ -4,12 +4,15 @@ const Modello = require('../../models/modello')
 const Sensore = require('../../models/sensore')
 const SnapshotSchema = require('../../schemas/snapshotSchema')
 const MisurazioneSchema = require('../../schemas/misurazioneSchema')
+const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer;
 
 const fs = require('fs')
 
 const mongoose = require('mongoose')
 
-module.exports = async () => {
+let mongodb = null;
+
+const setup = async () => {
   /*/set up test database
   \{
     "\$oid": (".*")
@@ -30,6 +33,17 @@ module.exports = async () => {
   \}
   $1
   //load from disk*/
+  // Create mock in-memory database
+  mongodb = await MongoMemoryServer.create()
+  const mongodb_uri = mongodb.getUri();
+  mongoose.connect(
+    mongodb_uri,
+    {useNewUrlParser: true, useUnifiedTopology: true},
+    (err) => {
+      if (err) return console.log("Error: ", err)
+      console.log("Mock MongoDB Connection -- Ready state is:", mongoose.connection.readyState)
+    }
+  )
 
   const utenti = JSON.parse(fs.readFileSync('tests/database/Utenti.json'))
   const modelli = JSON.parse(fs.readFileSync('tests/database/Modelli.json'))
@@ -51,4 +65,14 @@ module.exports = async () => {
 
   await myImpSnapshot.insertMany(snapshots)
   await myImpMisurazione.insertMany(misurazioni)
+}
+
+const teardown = async () => {
+  await mongoose.disconnect()
+  await mongodb.stop()
+}
+
+module.exports = {
+  setup:setup,
+  teardown:teardown
 }
