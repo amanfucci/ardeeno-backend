@@ -1,12 +1,19 @@
+This repository is part of the Ardeeno-T41 project, see also:
+- [ardeeno-frontend](https://github.com/amanfucci/ardeeno-frontend)
+- [ardeeno-backend](https://github.com/amanfucci/ardeeno-backend)
+- [ardeeno-datalayer](https://github.com/amanfucci/ardeeno-datalayer)
+- [ardeeno-deliverables-public](https://github.com/amanfucci/ardeeno-datalayer)
+
+
 # ardeeno-backend
-Fast deployment with heroku at [api.ardeeno.cloud](http://api.ardeeno.cloud). Docs are available at [api.ardeeno.cloud/api-docs](http://api.ardeeno.cloud/api-docs).
+Fast deployment with heroku at ~~[api.ardeeno.cloud]()~~. Docs are available at ~~[api.ardeeno.cloud/api-docs]()~~.
 
 Following [Open Api 3.0](https://swagger.io/specification/) API standard.
 
 ## WorkFlow
 - `main(production)` branch: Only fully-tested production-level code to be deployed
 - `develop` branch: Used to work on a new release
-- `feature` branch: Used to work on a feature from the [KanBan Board](https://github.com/orgs/T41-SE22/projects/1/views/1)
+- `feature` branch: Used to work on a feature from the KanBan Board
 - `patch` branch: Used to patch a feature
 - `hot-patch` branch: Used to patch a feature directly on `main`
 
